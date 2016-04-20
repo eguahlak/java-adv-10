@@ -15,9 +15,25 @@ public interface Stream<S> {
     return new MappedStream<>(this, mapper);
     }
   
-  <R> R reduce(R identity, Accumulator<R, S> accumulator);
+  default <R> R reduce(R identity, Accumulator<R, S> accumulator) {
+    return reduceUntil(s -> false, identity, accumulator);
+    }
+  
+  default int count() {
+    return reduce(0, (r, t) -> r + 1);
+    }
+  
+  default boolean isEmpty() {
+    return count() == 0;
+    }
   
   void forEach(Consumer<S> consumer);
+  
+  <R> R reduceUntil(Predicate<S> filter, R identity, Accumulator<R, S> accumulator);
+  
+  default S first() {
+    return reduceUntil(p -> true, null, (r, s) -> s);
+    }
   
   static <T> Stream<T> of(Iterable<T> iterable) {
     return new StreamOfIterable<>(iterable);

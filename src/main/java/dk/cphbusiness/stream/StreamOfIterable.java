@@ -1,6 +1,7 @@
 package dk.cphbusiness.stream;
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 class StreamOfIterable<T> implements Stream<T> {
   private Iterable<T> items;
@@ -22,10 +23,23 @@ class StreamOfIterable<T> implements Stream<T> {
     }
 
   @Override
-  public <R> R reduce(R identity, Accumulator<R, T> accumulator) {
+  public <R> R reduceUntil(Predicate<T> stopper, R identity, Accumulator<R, T> accumulator) {
     R reduction = identity;
-    for (T item : items) reduction = accumulator.accumulate(reduction, item);
+    for (T item : items) {
+      reduction = accumulator.accumulate(reduction, item);
+      if (stopper.test(item)) return reduction;
+      }
     return reduction;
     }
+
+  @Override
+  public boolean isEmpty() {
+    for (T item : items) return false;
+    return true;
+    
+    // return items.iterator().hasNext();
+    }
+  
+  
   
   }

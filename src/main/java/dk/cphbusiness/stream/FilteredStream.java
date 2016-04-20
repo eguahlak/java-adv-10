@@ -4,8 +4,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 class FilteredStream<T> implements Stream<T> {
-  private Stream<T> source;
-  private Predicate<T> filter;
+  private final Stream<T> source;
+  private final Predicate<T> filter;
 
   public FilteredStream(Stream<T> source, Predicate<T> filter) {
     this.source = source;
@@ -24,5 +24,25 @@ class FilteredStream<T> implements Stream<T> {
         (r, t) -> filter.test(t) ? accumulator.accumulate(r, t) : r
         );
     }
+
+  @Override
+  public <R> R reduceUntil(Predicate<T> stopper, R identity, Accumulator<R, T> accumulator) {
+    return source.reduceUntil(
+        stopper, 
+        identity, 
+        (r, t) -> filter.test(t) ? accumulator.accumulate(r, t) : r
+        );
+    }
+
+  @Override
+  public boolean isEmpty() {
+    return source.reduceUntil(
+        p -> true, 
+        true, 
+        (r, t) -> filter.test(t) ? false : r
+        );
+    }
+  
+  
   
   }
