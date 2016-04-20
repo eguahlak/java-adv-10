@@ -16,7 +16,11 @@ public class Program {
     
     Stream<Person> stream = Stream.of(people);
     stream.forEach(p -> { System.out.println(p.getFirstName()); });
-    stream.forEach(p -> { System.out.println(p); });
+    System.out.println("-----");
+    stream
+        .filter(p -> p.getAge() > 18)
+        .forEach(p -> { System.out.println(p); });
+    System.out.println("-----");
     stream.forEach(System.out::println);
     
     }
