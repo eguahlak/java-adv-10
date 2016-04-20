@@ -19,9 +19,16 @@ public class Program {
     System.out.println("-----");
     stream
         .filter(p -> p.getAge() > 18)
-        .forEach(p -> { System.out.println(p); });
+        .map(p -> p.getFirstName())
+        .forEach(f -> { System.out.println(f); });
     System.out.println("-----");
-    stream.forEach(System.out::println);
+    stream.map(Person::getLastName).forEach(System.out::println);
+    System.out.println("-----");
+    int total = Stream.of(people)
+        .filter(p -> p.getLastName().equals("Hansen"))
+        .map(p -> p.getAge())
+        .reduce(0, (r, a) -> r + a);
+    System.out.println("Total Hansen age is "+total);
     
     }
   

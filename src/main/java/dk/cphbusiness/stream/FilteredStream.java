@@ -16,5 +16,13 @@ class FilteredStream<T> implements Stream<T> {
   public void forEach(Consumer<T> consumer) {
     source.forEach(t -> { if (filter.test(t)) consumer.accept(t); });
     }
+
+  @Override
+  public <R> R reduce(R identity, Accumulator<R, T> accumulator) {
+    return source.reduce(
+        identity,
+        (r, t) -> filter.test(t) ? accumulator.accumulate(r, t) : r
+        );
+    }
   
   }
