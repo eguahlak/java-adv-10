@@ -14,8 +14,9 @@ public class Program {
       add(new Person("Kaj", "Nielsen", 9));
       }};
     
-    Stream<Person> stream = new StreamOfIterable<>(people);
+    Stream<Person> stream = Stream.of(people);
     stream.forEach(p -> { System.out.println(p.getFirstName()); });
+    stream.forEach(p -> { System.out.println(p); });
     stream.forEach(System.out::println);
     
     }

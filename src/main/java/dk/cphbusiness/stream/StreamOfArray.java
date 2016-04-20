@@ -2,10 +2,10 @@ package dk.cphbusiness.stream;
 
 import java.util.function.Consumer;
 
-class StreamOfIterable<T> implements Stream<T> {
-  private Iterable<T> items;
+class StreamOfArray<T> implements Stream<T> {
+  private final T[] items;
 
-  public StreamOfIterable(Iterable<T> items) {
+  public StreamOfArray(T[] items) {
     this.items = items;
     }
 
@@ -13,7 +13,5 @@ class StreamOfIterable<T> implements Stream<T> {
   public void forEach(Consumer<T> consumer) {
     for (T item : items) consumer.accept(item);
     }
-  
-  
 
   }
