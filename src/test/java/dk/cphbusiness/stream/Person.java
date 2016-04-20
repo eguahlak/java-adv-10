@@ -11,6 +11,13 @@ public class Person {
     this.age = age;
     }
 
+  @Override
+  public String toString() {
+    return firstName+" "+lastName+" is "+age+" years old";
+    }
+  
+  
+
   public String getFirstName() {
     return firstName;
     }

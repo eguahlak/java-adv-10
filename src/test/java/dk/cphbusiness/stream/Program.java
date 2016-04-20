@@ -16,6 +16,7 @@ public class Program {
     
     Stream<Person> stream = new StreamOfIterable<>(people);
     stream.forEach(p -> { System.out.println(p.getFirstName()); });
+    stream.forEach(System.out::println);
     
     }
   
